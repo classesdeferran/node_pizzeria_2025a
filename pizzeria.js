@@ -55,9 +55,15 @@ if (elecciones.length === 0) {
         // Validación de la elección de la masa
         for (item of elecciones) {
             item = item.toLocaleUpperCase()
-            if (item >= "A" && item <= "Z" && (item in ingredientes) ) {
+            
+            if (item >= "A" && item <= "Z" && item in ingredientes ) {
+                console.log("Masa :", item);
                 masas.push(item)
             }                
+        }
+        if (masas.length === 0) {
+            console.log("Hay que elegir un tipo de masa del menú.");
+            process.exit(1)
         }
         if (masas.length > 1) {
             console.log("Sólo puedes elegir un tipo de masa para la pizza");
@@ -80,12 +86,14 @@ if (elecciones.length === 0) {
             process.exit(1)
         }
        
-        console.log(ingredientesPizza);
+        let ingredientesFinales = masas.concat(ingredientesPizza)
+        // console.log(ingredientesFinales);
+        prepararPizza(ingredientesFinales);
     }
 
 
  
-  // prepararPizza(elecciones);
+  // 
 }
 
 function prepararPizza(elecciones) {
