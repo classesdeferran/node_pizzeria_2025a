@@ -44,3 +44,6 @@ const ingredientes = {
     "precio": 3.8
   }
 };
+
+
+module.exports = ingredientes;
