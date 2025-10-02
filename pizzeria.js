@@ -12,13 +12,13 @@
 // ...
 
 // Al ejecutar el fichero el usuario hace la elección
-// de los ingredientes, pero hay que respetar estas 
+// de los ingredientes, pero hay que respetar estas
 // condiciones:
 
 // 1) Tiene que elegir un tipo de masa, pero solo uno
 // 2) Tiene que elegir como mínimo tres ingredientes y
-// como máximo cinco. Si elige menos, mostraremos 
-// un mensaje de error, si elige más de 5, sólo 
+// como máximo cinco. Si elige menos, mostraremos
+// un mensaje de error, si elige más de 5, sólo
 // utilizaremos los cinco primeros.
 // 3) Si no se indican los ingredientes aparece el menú.
 // 4) No se pueden repetir los ingredientes.
@@ -31,26 +31,40 @@
 // "Precio: 14.40€"
 
 // Obtener los ingredientes desde el fichero
-const ingredientes = require('./ingredientes')
+const ingredientes = require("./ingredientes");
 // console.log(ingredientes);
 
 // node pizzeria.js -> aparece el menu
-// node pizzeria A 1 2 3 -> hacemos la selección
+// node pizzeria.js A 1 2 3 -> hacemos la selección
 
-let menu = "Pizzeria Nodi"
-menu += "\n" + "=".repeat(menu.length)
-menu += "\n\n" + "Elige la masa (sólo una):"
-for (item in ingredientes) {
-    
-    if (item >= 'A' && item <= 'Z' ) 
-        menu += (`\n${item} - ${ingredientes[item].nombre}, ${ingredientes[item].precio.toFixed(2)} €`);
+const eleccion = process.argv.slice(2);
+// console.log(eleccion);
+
+if (eleccion.length === 0) {
+  mostrarMenu();
+} else {
+    console.log("Ahora podrás elegir");
 }
-menu += "\n" + "-".repeat(20) + "\n"
-menu += "Elige los ingredientes (mínimo tres, máximo cinco):"
-for (item in ingredientes) {
-    item = parseInt(item)
-    if (item >= 1 && item <= 99 ) 
-        menu += (`\n${item} - ${ingredientes[item].nombre}, ${ingredientes[item].precio.toFixed(2)} €`);
+
+function mostrarMenu() {
+  let menu = "Pizzeria Nodi";
+  menu += "\n" + "=".repeat(menu.length);
+  menu += "\n\n" + "Elige la masa (sólo una):";
+  for (item in ingredientes) {
+    if (item >= "A" && item <= "Z")
+      menu += `\n${item} - ${ingredientes[item].nombre}, ${ingredientes[
+        item
+      ].precio.toFixed(2)} €`;
+  }
+  menu += "\n" + "-".repeat(20) + "\n";
+  menu += "Elige los ingredientes (mínimo tres, máximo cinco):";
+  for (item in ingredientes) {
+    item = parseInt(item);
+    if (item >= 1 && item <= 99)
+      menu += `\n${item} - ${ingredientes[item].nombre}, ${ingredientes[
+        item
+      ].precio.toFixed(2)} €`;
+  }
+  menu += "\n" + "-".repeat(20) + "\n";
+  console.log(menu);
 }
-menu += "\n" + "-".repeat(20) + "\n"
-console.log(menu);
