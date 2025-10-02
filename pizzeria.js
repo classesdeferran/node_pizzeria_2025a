@@ -37,13 +37,71 @@ const ingredientes = require("./ingredientes");
 // node pizzeria.js -> aparece el menu
 // node pizzeria.js A 1 2 3 -> hacemos la selección
 
-const eleccion = process.argv.slice(2);
-// console.log(eleccion);
+const elecciones = process.argv.slice(2);
+// console.log(elecciones);
 
-if (eleccion.length === 0) {
+if (elecciones.length === 0) {
   mostrarMenu();
 } else {
-    console.log("Ahora podrás elegir");
+
+    if (elecciones.length < 4 ) {
+        console.log("Faltan ingredientes");
+    } else if (ingredientes.length > 6) {
+        console.log("Sobran ingredientes");
+    } else {
+        let masas = []
+        let ingredientesPizza = []
+
+        // Validación de la elección de la masa
+        for (item of elecciones) {
+            item = item.toLocaleUpperCase()
+            if (item >= "A" && item <= "Z" && (item in ingredientes) ) {
+                masas.push(item)
+            }                
+        }
+        if (masas.length > 1) {
+            console.log("Sólo puedes elegir un tipo de masa para la pizza");
+            process.exit(1)
+        }
+
+        // Validación de los ingredientes (por número)
+        for (item of elecciones) {
+    
+            if (item >= 1 && item <= 99 && item in ingredientes) {
+                if (!ingredientesPizza.includes(item))
+                    ingredientesPizza.push(item)
+            } 
+        } 
+        if (ingredientesPizza.length < 3 || ingredientesPizza.length > 5) {
+            let mensajeError = `Has elegido ${ingredientesPizza.length} ingrediente`
+            mensajeError += "\nTe recordamos que deben ser distintos y debe haber"
+            mensajeError += "\n3 ingredientes como mínimo y 5 como máximo";
+            console.log(mensajeError);
+            process.exit(1)
+        }
+       
+        console.log(ingredientesPizza);
+    }
+
+
+ 
+  // prepararPizza(elecciones);
+}
+
+function prepararPizza(elecciones) {
+  let pizza = "Preparamos tu pizza con ";
+  pizza += elecciones.map((i) => ingredientes[i].nombre).join(", ") + ".";
+  pizza += "\nPrecio :";
+
+  let total = 0;
+
+  for (item of elecciones) {
+    total += ingredientes[item].precio;
+  }
+
+  pizza += total.toFixed(2) + "€.";
+
+  console.log(pizza);
 }
 
 function mostrarMenu() {
